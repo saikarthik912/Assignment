@@ -9,6 +9,8 @@ services:
       MYSQL_ROOT_PASSWORD: 'password'
     ports: 
       - "3306:3306"
+    volumes:
+    - mysqlbkp:/var/lib/mysql
   
   mongo:
     image: mongo:4.2.8
@@ -18,13 +20,20 @@ services:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
       MONGO_INITDB_DATABASE: backend_test
+    volumes:
+    - mongobkp:/data/db
 
   nodejs:
     build:
       context: .
-    command: [ sh, -c, "start.sh" ]      
+    command: [ "sh", "/app/start.sh" ]      
     depends_on:
       - mysql    
     ports:
       - "8080:3000"
 
+volumes:
+  mongobkp:
+    external: true
+  mysqlbkp:
+    external: true
