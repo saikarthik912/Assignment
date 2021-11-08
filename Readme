@@ -1,0 +1,26 @@
+PREREQUISITES
+  Java version 11.0.11
+  Jenkins 
+  Docker
+  Docker-compose
+  Nginx.
+  
+Write a Docker file.
+    create a workDir /app
+    To get the latest code from the current directory use . /app
+    To run the node app use npm install
+    For exporting the server in 3000 port use Export 3000
+    
+ write a Docker-compose.yml file
+  Go to the path docker-compose.yml file
+ 
+ Install Jenkins
+  Make the configuration of Jenkins as required.
+  
+Run a pipeline script in Jenkins 
+ path to pipeline script is jenkins.groovy.
+ 
+Install Nginx 
+set the configuaration in nginx like port number.
+  
+ The app will run finally on the nodejs port  3000 and nginx port.
