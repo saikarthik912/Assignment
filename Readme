@@ -5,22 +5,42 @@ PREREQUISITES
   Docker-compose
   Nginx.
   
-Write a Docker file.
-    create a workDir /app
-    To get the latest code from the current directory use . /app
-    To run the node app use npm install
-    For exporting the server in 3000 port use Export 3000
-    
- write a Docker-compose.yml file
-  Go to the path docker-compose.yml file
- 
- Install Jenkins
-  Make the configuration of Jenkins as required.
-  
-Run a pipeline script in Jenkins 
- path to pipeline script is jenkins.groovy.
- 
-Install Nginx 
-set the configuaration in nginx like port number.
-  
- The app will run finally on the nodejs port  3000 and nginx port.
+ENVIRONMENT SETUP 
+
+Take an ec2 instance from AWS and then install JAVA,JENKINS,DOCKER,DOCKER-COMPOSE in it.
+
+Configure a Jenkins pipeline in Jenkins by using the below steps.
+
+pipeline{
+  agent any
+  stages{
+    stage('Git-Checkout'){
+      steps{
+        script{
+            cleanWs()
+           git url: 'https://github.com/saikarthik912/Assignment.git', branch: 'master'
+        }
+      }
+    }
+    stage('Build-and-Deploy'){
+      steps{
+        script{
+            sh "chmod -R 777 ."
+            echo "Build and Deploy"
+            sh "ls -la"
+            sh "docker ps"
+           sh "docker images"
+            sh "docker-compose down --rmi local --remove-orphans"
+            sh "docker-compose up --build -d"
+        }
+      }
+    }
+  }
+}
+Then this jenkins pipeline will create a new Docker image and it will deploy the APP by using Docker-compose file
+
+The app will run in the port 3000 automatically.
+
+Then install nginx in the server and run the app in the default nginx port.
+
+If any changes in the code, docker will identify and deploy accordingly.
